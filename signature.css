@@ -1,7 +1,7 @@
 /*
  * MCMLXXVIII — signature component
  * Central style for the personal signature across projects.
- * Version 1.0 | 2026-10-17
+ * Version 1.1 | 2026-10-18
  * Hosted at: https://darktronmt.github.io/mcmlxxviii/signature.css
  * No dependencies; scoped to .mcmlxxviii-signature.
  */
@@ -33,14 +33,12 @@
   left: 50%;
   transform: translate(-50%, 6px);
   box-sizing: border-box;
-
   padding: 10px 16px;
   background: #252525;
   color: #f5f2ee;
   border-top: 2px solid #d96517;
   border-radius: 3px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 12px;
   font-style: normal;
@@ -50,12 +48,10 @@
   text-align: center;
   text-transform: none;
   white-space: nowrap;
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   z-index: 9999;
-
   transition: opacity 0.22s ease,
               transform 0.22s ease,
               visibility 0.22s ease;
@@ -69,7 +65,8 @@
   }
 }
 
-.mcmlxxviii-signature:focus-visible::after {
+.mcmlxxviii-signature:focus-visible::after,
+.mcmlxxviii-signature.is-open::after {
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, 0);
@@ -80,23 +77,27 @@
   outline-offset: 3px;
 }
 
-/* On narrow screens the tooltip stays anchored to the right of the mark. */
+/* For narrow touch screens, center the tip within the viewport
+   to prevent horizontal clipping in different footer layouts. */
 @media (max-width: 560px) {
   .mcmlxxviii-signature::after {
-    left: auto;
-    right: 0;
-    transform: translateY(6px);
-    font-size: 10px;
-    padding: 8px 10px;
+    position: fixed;
+    bottom: max(25px, env(safe-area-inset-bottom));
+    left: 50%;
+    right: auto;
+    max-width: calc(100vw - 24px);
+    padding: 9px 12px;
+    font-size: clamp(9px, 2.5vw, 11px);
+    white-space: nowrap;
+    transform: translate(-50%, 6px);
   }
 
+  .mcmlxxviii-signature.is-open::after,
   .mcmlxxviii-signature:focus-visible::after {
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mcmlxxviii-signature::after {
-    transition: none;
-  }
+  .mcmlxxviii-signature::after { transition: none; }
 }
